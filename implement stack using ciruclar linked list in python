@@ -1,0 +1,101 @@
+class Node:
+    def __init__(self, value):
+        self.value = value
+        self.next = None
+
+class CircularLinkedList:
+    def __init__(self):
+        self.head = None
+
+    def is_empty(self):
+        return self.head is None
+
+    def push(self, value):
+        new_node = Node(value)
+        if self.is_empty():
+            self.head = new_node
+            new_node.next = self.head
+        else:
+            current = self.head
+            while current.next != self.head:
+                current = current.next
+            current.next = new_node
+            new_node.next = self.head
+
+    def insert(self, value, index):
+        new_node = Node(value)
+        if self.head is None:
+            self.head = new_node
+            new_node.next = self.head
+        elif index == 0:
+            new_node.next = self.head
+            current = self.head
+            while current.next != self.head:
+                current = current.next
+            current.next = new_node
+            self.head = new_node
+        else:
+            current = self.head
+            prev = None
+            count = 0
+            while count < index:
+                prev = current
+                current = current.next
+                count += 1
+            prev.next = new_node
+            new_node.next = current
+
+    def pop(self, key):
+        if self.is_empty():
+            return None
+        if self.head.value == key:
+            current = self.head
+            while current.next != self.head:
+                current = current.next
+                if self.head == self.head.next:
+                    self.head = None
+                else:
+                    current.next = self.head.next
+                    self.head = self.head.next
+        else:
+            current = self.head
+            prev = None
+            while current.value != key:
+                prev = current
+                current = current.next
+            prev.next = current.next
+
+    def peek(self):
+        if self.is_empty():
+            return None
+        return self.head.value
+
+    def display(self):
+        if self.is_empty():
+            return
+        current = self.head
+        while True:
+            print(current.value, end=" -> ")
+            current = current.next
+            if current == self.head:
+                break
+        print()  # Print a newline to separate the list from subsequent output
+
+# Create a CircularLinkedList instance
+madhu = CircularLinkedList()
+
+# Push some values onto the stack
+madhu.push(10)
+madhu.push(20)
+madhu.push(30)
+madhu.push(40)
+madhu.push(50)
+
+# Insert a value at a specific index
+madhu.insert(22, 1)
+
+# Display the circular linked list
+madhu.display()
+
+# Peek at the top of the circular linked list
+print("Peek:", madhu.peek())
